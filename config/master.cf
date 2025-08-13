@@ -1,0 +1,3 @@
+smtp      inet  n       -       y       -       -       smtpd
+  -o syslog_name=postfix/smtp
+  # -o smtpd_upstream_proxy_protocol=haproxy
