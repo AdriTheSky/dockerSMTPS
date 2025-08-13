@@ -6,6 +6,8 @@ set -euo pipefail
 : "${MYDOMAIN:=example.com}"
 : "${MYNETWORKS:=0.0.0.0}"
 : "${SMTP_USERS:=smtpUser:smtpPasswd}"
+: "${SMTP_RELAY_RESTRICT:=permit_mynetworks, permit_sasl_authenticated, reject_unauth_destination}"
+: "${SMTP_RECIP_RESTRICT:=permit_mynetworks, permit_sasl_authenticated, reject_unauth_destination}"
 : "${RELAYHOST:=}"
 : "${RELAYHOST_USER:=}"
 : "${RELAYHOST_PASSWORD:=}"
@@ -53,8 +55,8 @@ smtpd_sasl_path = smtpd
 smtpd_sasl_security_options = noanonymous
 
 # No open-relay
-smtpd_relay_restrictions = permit_mynetworks, permit_sasl_authenticated, reject_unauth_destination
-smtpd_recipient_restrictions = permit_mynetworks, permit_sasl_authenticated, reject_unauth_destination
+smtpd_relay_restrictions = ${SMTP_RELAY_RESTRICT}
+smtpd_recipient_restrictions = ${SMTP_RECIP_RESTRICT}
 
 # Logging/verbo
 smtpd_tls_loglevel = ${SMTPD_LOGLEVEL}
@@ -96,3 +98,4 @@ fi
 
 postfix check || true
 exec "$@"
+
