@@ -14,7 +14,8 @@ VOLUME ["/var/spool/postfix", "/var/lib/postfix", "/etc/postfix", "/etc/sasldb2"
 
 EXPOSE 25 587 465
 
-HEALTHCHECK --interval=30s --timeout=5s --retries=5 CMD sh -c "nc -z localhost 587 || nc -z localhost 25 || exit 1"
+HEALTHCHECK --interval=30s --timeout=5s --retries=5 CMD sh -c "nc -z localhost 465 || nc -z localhost 25 || exit 1"
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
+
 CMD ["postfix", "start-fg"]
